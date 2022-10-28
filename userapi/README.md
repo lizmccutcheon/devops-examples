@@ -1,13 +1,12 @@
 ## To run
 ### Locally 
-```docker build -t userapi .  
-docker run -p 5000:5000 userapi
-``` 
+`docker build -t userapi .`   
+`docker run -p 5000:5000 userapi`  
 
 The app will then be available on localhost:5000 (running on the built-in Flask development server).  
 
 ### With Gitlab CI
-The workflow is set up to deploy to Heroku on push to `userapi` folder on `master` branch. A Procfile is also provided to enable using gunicorn as WSGI server on Heroku.  
+The workflow is set up to deploy to Heroku on push to `/userapi` folder on `master` branch. A Procfile is also provided to enable using gunicorn as WSGI server on Heroku.  
 
 If deploying to Heroku, you will also need to add your api key and email to GitHub Secrets.
 

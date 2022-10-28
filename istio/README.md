@@ -8,7 +8,7 @@
 - A VirtualService, which applies traffic routing to the userapi-service.  
 
 The architecture looks like this :  
-![architecture](https://github.com/lizmccutcheon/devops-project/blob/main/architecture.png)
+![architecture](https://github.com/lizmccutcheon/devops-examples/blob/main/architecture.png)
 
 ### Manifests
 In the deployment folder:  
@@ -27,7 +27,7 @@ In the configuration folder (details below in Configuration section):
 In the addons folder:  
 - yaml for kiali, grafana, etc. (default setup provided on kubernetes installation). As the two versions of the deployed app look identical, kiali can be installed and used to visualise the architecture and traffic.
 
-### How to run
+## How to run
 It is assumed that you already have virtualization software (e.g VirtualBox) with minikube, kubectl and istioctl installed. Instructions 
 - enable istio injection into the default namespace : `kubectl label namespace default istio-injection=enabled`
 - `kubectl apply -f deployment/`
