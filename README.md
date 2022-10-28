@@ -1,5 +1,5 @@
 ## DevOps examples
-A basic web application which has been deployed in various ways. Developed as part of the assessment for the DevOps unit as part of the at [Applied MSc in Data Engineering for Artificial Intelligence](https://www.datasciencetech.institute/applied-msc-in-data-engineering-for-artificial-intelligence/) at [DSTI](http://www.datasciencetech.institute).
+A basic web application and various methods of deploying it. Originally developed as an assessment for the DevOps unit, [Applied MSc in Data Engineering for Artificial Intelligence](https://www.datasciencetech.institute/applied-msc-in-data-engineering-for-artificial-intelligence/) at [DSTI](http://www.datasciencetech.institute).
 
 ### Contents
 - `userapi` : CRUD API in Python/Flask, with Swagger implementation, suite of unit tests and Dockerfile, deployed to Heroku using GitHub CI.
