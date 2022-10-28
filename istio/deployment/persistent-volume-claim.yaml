@@ -1,0 +1,24 @@
+### same as the file in kubernetes folder
+apiVersion: v1 # for the mysql storage
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-data-claim
+spec:
+  accessModes:
+    - ReadWriteOnce # database files
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1 # for the intiial db config
+kind: ConfigMap
+metadata:
+  name: mysql-initdb-config
+data:  # sql to initialize the userapi database + schema
+  init.sql: |
+    CREATE DATABASE IF NOT EXISTS apiusers;
+    USE apiusers;
+    CREATE TABLE users (username VARCHAR(40),firstname VARCHAR(20),lastname VARCHAR(20));
+    INSERT INTO users VALUES ('andy','andrew','andrews');
+    INSERT INTO users VALUES ('bazzab','barry','brown');
+    INSERT INTO users VALUES ('charliec','charles','chaplin');

@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userapi-deployment
+  labels:
+    app: userapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: userapi
+  template:
+    metadata:
+      labels:
+        app: userapi
+    spec:
+      containers:
+        - name: userapi
+          image: lizm666/userapi_mysql:latest # pull image from Docker Hub
+          ports:
+            - containerPort: 8000
+          env: # get enviroment variables for Flask app from secrets
+            - name: DB_CONFIG_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-credentials
+                  key: root-password
+            - name: DB_CONFIG_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-credentials
+                  key: root-username
+            - name: DB_CONFIG_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-credentials
+                  key: db-name
+            - name: DB_CONFIG_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-credentials
+                  key: db-config-host
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: flask-secrets
+                  key: flask-secret-key
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: userapi-service
+spec:
+  ports:
+  - port: 8000
+    protocol: TCP
+    targetPort: 8000
+  selector:
+    app: userapi
+  type: LoadBalancer # to expose port externally

@@ -1,0 +1,320 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "Simple CRUD API for testing DevOps workflows",
+    "version": "1.0.0",
+    "title": "My Stupid Flask API",
+    "contact": {
+      "email": "liz.mccutcheon@gmail.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "User administration",
+      "description": "API for requesting, adding, deleting and modifying users"
+    }
+  ],
+  "paths": {
+    "/hello": {
+      "get": {
+        "tags": [
+          "User administration"
+        ],
+        "summary": "Say hello",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/components/schemas/hello"
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": [
+          "User administration"
+        ],
+        "summary": "Request all users",
+        "responses" : {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/components/schemas/users"
+            }
+          },
+        }
+      },
+      "post": {
+        "tags": [
+          "User administration"
+        ],
+        "summary": "Add a user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/user"
+              }
+            }
+          },
+        },
+        "responses": {
+          "201": {
+            "description": "User added",
+            "content": {
+              "text/plain; charset=utf-8": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/plain; charset=utf-8": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "User already exisits",
+            "content": {
+              "text/plain; charset=utf-8": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{username}": {
+      "parameters": [
+        {
+          "name": "username",
+          "in": "path",
+          "required": true,
+          "description": "username of user to be modified",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": [
+          "User administration"
+        ],
+        "summary":"Request a single user",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "username",
+            "required": true,
+            "description": "username of user to be requested",
+            "schema": {
+              "$ref": "#/components/schemas/username"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/components/schemas/user"
+            }
+          },
+          "404": {
+            "description": "User does not exist"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "User administration"
+        ],
+        "summary": "Update a user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/user"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User added",
+            "content": {
+              "text/plain; charset=utf-8": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/plain; charset=utf-8": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "User already exists",
+            "content": {
+              "text/plain; charset=utf-8": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User does not exist",
+            "content": {
+              "text/plain; charset=utf-8": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "User administration"
+        ],
+        "summary": "Delete a user",
+        "parameters": [
+          {
+          "in": "path",
+          "name": "username",
+          "required": true,
+          "description": "username of user to be deleted",
+          "schema": {
+            "$ref": "#/components/schemas/username"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User deleted",
+            "content": {
+              "text/plain; charset=utf-8": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User does not exist",
+            "content": {
+              "text/plain; charset=utf-8": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "User administration"
+        ],
+        "summary": "Healthcheck",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain; charset=utf-8": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "text/plain; charset=utf-8": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "username": {
+        "properties": {
+          "uuid": {
+            "type": "string"
+          }
+        }
+      },
+      "hello":{
+        "type": "object",
+        "properties": {
+          "Hello": {
+            "type": "string"
+          },
+          "world": {
+            "type": "string"
+          }
+        }
+      },
+      "user": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "format": "string"
+          },
+          "firstname": {
+            "type": "string",
+            "format": "string"
+          },
+          "lastname": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      },
+      "users": {
+        "type": "object",
+        "properties": {
+          "Users" :{
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/user"
+            }
+          }
+        }
+      }
+    }
+  }
+}

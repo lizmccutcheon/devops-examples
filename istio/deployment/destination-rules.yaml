@@ -1,0 +1,14 @@
+### defines the two subsets of the userapi-service
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: userapi-service-rule
+spec:
+  host: userapi-service
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2

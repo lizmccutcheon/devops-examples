@@ -1,0 +1,4 @@
+gunicorn
+Flask
+mysql-connector
+flask_swagger_ui==3.36.0

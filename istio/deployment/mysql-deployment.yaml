@@ -1,0 +1,56 @@
+### same as the file in the kubernetes folder
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+  labels:
+    app: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:5.7 # pull image from Docker Hub
+          ports:
+            - containerPort: 3306
+              name: mysql
+          env: # get env variables from secrets
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-credentials
+                  key: root-password
+          volumeMounts:
+            # mysql container executes code in here if /var/lib/mysql does not exist
+            - name: mysql-initdb
+              mountPath: /docker-entrypoint-initdb.d
+            # mount persistent storage volume
+            - mountPath: "/var/lib/mysql"
+              subPath: "mysql"
+              name: mysql-data
+      volumes:
+        - name: mysql-initdb # create/populate the db on first start up
+          configMap:
+            name: mysql-initdb-config
+        - name: mysql-data # persistent storage volume
+          persistentVolumeClaim:
+            claimName: mysql-data-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+spec:
+  ports:
+    - port: 3306
+      name: tcp-mysql # corrected port name for kiali console
+  selector:
+    app: mysql
+  clusterIP: None # don't want database to directly accessable from outside

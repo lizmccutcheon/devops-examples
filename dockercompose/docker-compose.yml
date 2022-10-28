@@ -1,0 +1,23 @@
+version: "2"
+services:
+  db:
+    image: mysql:5.7
+    ports:
+      - "32000:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_CONFIG_PASSWORD}
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d/:ro # init.sql executed
+
+  app:
+    environment:
+      - SECRET_KEY
+      - DB_CONFIG_USERNAME
+      - DB_CONFIG_PASSWORD
+      - DB_CONFIG_DATABASE
+      - DB_CONFIG_HOST
+    image: lizm666/userapi_mysql:latest
+    links:
+      - db
+    ports:
+      - "8000:8000"

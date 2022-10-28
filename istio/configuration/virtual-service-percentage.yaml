@@ -1,0 +1,20 @@
+### traffic shifting configuration - weight-based routing
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: userapi-service-percent
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - app-gateway
+  http:
+  - route:
+    - destination:
+        host: userapi-service
+        subset: v1
+      weight: 80 # 80% of traffic to v1
+    - destination:
+        host: userapi-service
+        subset: v2
+      weight: 20 # 20% of traffic to v2

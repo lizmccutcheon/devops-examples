@@ -1,0 +1,28 @@
+### traffic routing
+### send requests to homepage and /hello endpoint to v1
+### send all other requests to v2
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: userapi-service-routing 
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - app-gateway
+  http:
+  - match: # send requests to homepage and /hello endpoint to v1
+    - uri:
+        prefix: /index
+    - uri:
+        prefix: /home
+    - uri:
+        prefix: /hello
+    route:
+    - destination:
+        host: userapi-service
+        subset: v1
+  - route:  # all other traffic to v2
+    - destination:
+        host: userapi-service
+        subset: v2
