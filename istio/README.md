@@ -28,14 +28,14 @@ In the addons folder:
 - yaml for kiali, grafana, etc. (default setup provided on kubernetes installation). As the two versions of the deployed app look identical, kiali can be installed and used to visualise the architecture and traffic.
 
 ## How to run
-It is assumed that you already have virtualization software (e.g VirtualBox) with minikube, kubectl and istioctl installed. Instructions 
-- enable istio injection into the default namespace : `kubectl label namespace default istio-injection=enabled`
+It is assumed that you already have virtualization software (e.g VirtualBox) with minikube, kubectl and istioctl installed.
+- Enable istio injection into the default namespace : `kubectl label namespace default istio-injection=enabled`
 - `kubectl apply -f deployment/`
-- get ingress host name : `export INGRESS_HOST=$(minikube ip)`
-- get ingress port : `export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')`
-- get the userapi url : `export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT && echo $GATEWAY_URL`
+- Get ingress host name : `export INGRESS_HOST=$(minikube ip)`
+- Get ingress port : `export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')`
+- Get the userapi url : `export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT && echo $GATEWAY_URL`
 - Start a tunnel with `minikube tunnel`
-- The application can now be viewed in your browser at $GATEWAY_URL  
+- The application can now be viewed in your browser at `$GATEWAY_URL`  
 
 The above steps launch the default application set-up, i.e. with no special routing rules applied.
 
@@ -55,4 +55,4 @@ Three routing configurations have been provided.
 - To apply this configuration, first remove the existing virtual service with `kubectl delete virtualservice --all` then do `kubectl apply -f configuration/virtual-service-percentage.yaml`
 - This configuration sends 80% of incoming traffic to v1 of userapi and 20% to v2.
 
-(As both versions of the front-end appear idential, traffic can be visualised with kiali)
+As both versions of the front-end appear idential, traffic can be visualised with [Kiali](https://kiali.io/)
